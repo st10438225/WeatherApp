@@ -1,5 +1,7 @@
 **Module: OPSC6312 POE**
 **Github link:** https://github.com/st10438225/WeatherApp.git
+**APK location:** app/release/app-release.apk
+**Youtube link:** https://youtube.com/shorts/zPAvqoEqLaM?si=d9YW73qsqKSC1rqS (login section was edited out to fit youtube                                                                                  requirements)
 
 **WeatherApp**
 is a fully functional Android application that provides real-time weather updates, 5-day forecasts, and local event discovery based on the user's location. 
