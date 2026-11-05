@@ -2,26 +2,17 @@ package com.example.weatherapp
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.LocationManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,30 +21,26 @@ import com.example.weatherapp.utils.Constants
 import com.example.weatherapp.utils.EventsRepository
 import com.example.weatherapp.utils.SettingsRepository
 import com.example.weatherapp.utils.WeatherRepository
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class MainActivity : AppCompatActivity() {
 
-    private val REQUEST_LOCATION_CODE = 123321
     private var tempUnit: String = "C"
-
-    private lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var repository: WeatherRepository
     private val eventsRepository = EventsRepository()
     private lateinit var eventsAdapter: EventsAdapter
 
-    private lateinit var weatherCache: LastWeatherCache
     private lateinit var db: AppDatabase
     private lateinit var dao: FavouriteCityDao
     private var lastFetchedWeather: WeatherResponse? = null
-    private var currentLat: Double = 0.0
-    private var currentLon: Double = 0.0
+
+    // Default fallback: Johannesburg
+    private var currentLat: Double = -26.2041
+    private var currentLon: Double = 28.0473
 
     private val searchLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -62,43 +49,94 @@ class MainActivity : AppCompatActivity() {
             val lat = result.data!!.getDoubleExtra("lat", 0.0)
             val lon = result.data!!.getDoubleExtra("lon", 0.0)
             val cityName = result.data!!.getStringExtra("cityName") ?: ""
+
             getSharedPreferences("app_prefs", MODE_PRIVATE)
                 .edit().putString("last_city", cityName).apply()
+
             getLocationWeatherDetails(lat, lon)
             getEventsNearby(lat, lon)
             findViewById<TextView>(R.id.tvLocation).text = cityName
+        }
+    }
 
+    private val locationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        if (permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true ||
+            permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true
+        ) {
+            requestLocationData()
+        } else {
+            Toast.makeText(this, "Location denied. Showing default city.", Toast.LENGTH_SHORT).show()
+            getLocationWeatherDetails(currentLat, currentLon)
+            getEventsNearby(currentLat, currentLon)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
 
-        // Init Components
         repository = WeatherRepository(this)
-        weatherCache = LastWeatherCache(this)
         db = AppDatabase.getDatabase(this)
         dao = db.favouriteCityDao()
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-
 
         lifecycleScope.launch {
             val settings = SettingsRepository.load()
             if (settings != null) {
                 tempUnit = settings.tempUnit
-
             }
         }
 
         setupViews()
         observeFavourites()
-        checkLocationAndPermissions()
+
+        checkLocationPermissions()
+    }
+
+    private fun checkLocationPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        ) {
+            requestLocationData()
+        } else {
+            locationPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun requestLocationData() {
+        lifecycleScope.launch {
+            try {
+                val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this@MainActivity)
+
+                val location = fusedLocationClient.getCurrentLocation(
+                    Priority.PRIORITY_HIGH_ACCURACY,
+                    null
+                ).await()
+
+                if (location != null) {
+                    currentLat = location.latitude
+                    currentLon = location.longitude
+                } else {
+                    Toast.makeText(this@MainActivity, "GPS failed. Showing default city.", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Log.e(Constants.LOG_TAG, "Location error", e)
+                Toast.makeText(this@MainActivity, "Location error. Showing default city.", Toast.LENGTH_SHORT).show()
+            } finally {
+                getLocationWeatherDetails(currentLat, currentLon)
+                getEventsNearby(currentLat, currentLon)
+            }
+        }
     }
 
     private fun setupViews() {
-        //Events RecyclerView
         val rvEvents = findViewById<RecyclerView>(R.id.rvEvents)
         rvEvents.layoutManager = LinearLayoutManager(this)
         eventsAdapter = EventsAdapter(emptyList())
@@ -113,14 +151,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btnViewForecast).setOnClickListener {
-            if (currentLat != 0.0 && currentLon != 0.0) {
-                val intent = Intent(this, ForecastActivity::class.java)
-                intent.putExtra("lat", currentLat)
-                intent.putExtra("lon", currentLon)
-                startActivity(intent)
-            } else {
-                Toast.makeText(this, "Weather data not loaded yet", Toast.LENGTH_SHORT).show()
-            }
+            val intent = Intent(this, ForecastActivity::class.java)
+            intent.putExtra("lat", currentLat)
+            intent.putExtra("lon", currentLon)
+            startActivity(intent)
         }
 
         findViewById<TextView>(R.id.btnAddFavourite).setOnClickListener {
@@ -146,9 +180,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Notification Permission
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 999)
+                androidx.core.app.ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 999)
             }
         }
     }
@@ -161,22 +195,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkLocationAndPermissions() {
-        if (!isLocationEnabled()) {
-            Toast.makeText(this, "Location is not turned on", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
-        } else {
-            requestPermission()
-        }
-    }
-
     private fun getLocationWeatherDetails(latitude: Double, longitude: Double) {
         lifecycleScope.launch {
             val result = repository.getWeatherByLocation(latitude, longitude)
             result.onSuccess { weatherResult ->
                 setupUI(weatherResult.data)
 
-                //LIVE/OFFLINE Badge
                 val tvStatus = findViewById<TextView>(R.id.tvStatus)
                 if (weatherResult.isOffline) {
                     tvStatus.text = "OFFLINE"
@@ -198,28 +222,7 @@ class MainActivity : AppCompatActivity() {
                 eventsAdapter = EventsAdapter(events)
                 findViewById<RecyclerView>(R.id.rvEvents).adapter = eventsAdapter
             }.onFailure {
-                Log.e(Constants.LOG_TAG, "Failed to load events", it)            }
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun requestLocationData() {
-        lifecycleScope.launch {
-            try {
-                val location = mFusedLocationProviderClient.getCurrentLocation(
-                    Priority.PRIORITY_HIGH_ACCURACY,
-                    null
-                ).await()
-
-                if (location != null) {
-                    getLocationWeatherDetails(location.latitude, location.longitude)
-                    getEventsNearby(location.latitude, location.longitude)
-                } else {
-                    Toast.makeText(this@MainActivity, "Could not get location. Is GPS on?", Toast.LENGTH_SHORT).show()
-                }
-            } catch (e: Exception) {
-                Log.e(Constants.LOG_TAG, "Error getting location", e)
-                Toast.makeText(this@MainActivity, "Failed to get location", Toast.LENGTH_SHORT).show()
+                Log.e(Constants.LOG_TAG, "Failed to load events", it)
             }
         }
     }
@@ -315,53 +318,5 @@ class MainActivity : AppCompatActivity() {
     private fun fmtTemp(celsius: Double): String {
         return if (tempUnit == "F") "%.1f°F".format(celsius * 9.0 / 5.0 + 32.0)
         else "%.1f°C".format(celsius)
-    }
-
-    private fun isLocationEnabled(): Boolean {
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-    }
-
-    private fun requestPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            showRequestDialog()
-        } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            showRequestDialog()
-        } else {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),
-                REQUEST_LOCATION_CODE
-            )
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode != REQUEST_LOCATION_CODE) return
-
-        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            requestLocationData()
-        } else {
-            Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun showRequestDialog() {
-        AlertDialog.Builder(this)
-            .setPositiveButton("GO TO SETTINGS") { _, _ ->
-                try {
-                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                    intent.data = Uri.fromParts("package", packageName, null)
-                    startActivity(intent)
-                } catch (e: ActivityNotFoundException) {
-                    e.printStackTrace()
-                }
-            }.setNegativeButton("CLOSE") { dialog, _ ->
-                dialog.cancel()
-            }.setTitle("Location permission needed")
-            .setMessage("This permission is needed to access the location, enable under Application settings.")
-            .show()
     }
 }
