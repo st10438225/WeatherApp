@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F4F7FB"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- ===== GRADIENT HEADER (uses weather_gradient) ===== -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="36dp"
+            android:background="@drawable/weather_gradient"
+            android:elevation="3dp">
+
+            <TextView
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:background="#33FFFFFF"
+                android:gravity="center"
+                android:text="☁️"
+                android:textSize="38sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_title"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="14dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_subtitle"
+                android:textSize="14sp"
+                android:textColor="#DCEBFF"
+                android:layout_marginTop="6dp" />
+
+        </LinearLayout>
+
+        <!-- ===== FORM CARD (uses weather_card) ===== -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/weather_card"
+            android:elevation="2dp">
+
+            <!-- Email Label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_email"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="#8492A6"
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Email Input (uses edit_text_background) -->
+            <EditText
+                android:id="@+id/emailEditText"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress"
+                android:singleLine="true"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textSize="16sp"
+                android:textColor="#172B4D"
+                android:textColorHint="#9CA3AF"
+                android:background="@drawable/edit_text_background"
+                android:layout_marginBottom="20dp" />
+
+            <!-- Password Label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_password"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="#8492A6"
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Password Input (uses edit_text_background) -->
+            <EditText
+                android:id="@+id/passwordEditText"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:hint="@string/hint_password"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textSize="16sp"
+                android:textColor="#172B4D"
+                android:textColorHint="#9CA3AF"
+                android:background="@drawable/edit_text_background"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Register Button (uses register_button_background) -->
+            <Button
+                android:id="@+id/registerBtn"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:text="@string/btn_create_account"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/register_button_background"
+                android:textAllCaps="false"
+                android:elevation="3dp" />
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E5EAF1"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="18dp" />
+
+            <!-- Switch to Log in Link -->
+            <!-- Switch between Login / Register -->
+            <TextView
+                android:id="@+id/tvSwitchMode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/switch_to_login"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#2864C7"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground" />
+
+            <Button
+                android:id="@+id/btnGoogleSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="16dp"
+                android:text="Continue with Google"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#172B4D"
+                android:backgroundTint="#FFFFFF"
+                android:drawableStart="@android:drawable/ic_menu_myplaces"
+                android:textAllCaps="false"
+                android:elevation="2dp" />
+
+        </LinearLayout>
+
+        <!-- ===== PRIVACY FOOTER (uses weather_card) ===== -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="18dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/weather_card"
+            android:elevation="1dp">
+
+            <TextView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_status"
+                android:gravity="center"
+                android:text="🔒"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="14dp"
+                android:text="Secure authentication powered by Firebase. Your data is encrypted and protected."
+                android:textSize="13sp"
+                android:textColor="#64748B"
+                android:lineSpacingExtra="3dp" />
+
+        </LinearLayout>
+
+        <!-- Footer Text -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="WeatherApp • Secure Login"
+            android:textSize="12sp"
+            android:textColor="#94A3B8"
+            android:gravity="center"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp" />
+
+    </LinearLayout>
+
+</ScrollView>

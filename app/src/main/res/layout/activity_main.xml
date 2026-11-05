@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F7FB"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loading..."
+                    android:textColor="#172B4D"
+                    android:textSize="28sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvCountry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#718096"
+                    android:textSize="15sp"
+                    android:layout_marginTop="3dp"/>
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/btnOpenSearch"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Search for a city..."
+                android:textSize="15sp"
+                android:textColor="#9CA3AF"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:clickable="true"
+                android:focusable="true" />
+
+
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Live"
+                android:textColor="#247A52"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:background="@drawable/bg_status"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"/>
+
+            <ImageView
+                android:id="@+id/btnSettings"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_status"
+                android:padding="8dp"
+                android:src="@drawable/ic_gear"
+                android:contentDescription="@string/settings"
+                android:clickable="true"
+                android:focusable="true" />
+
+        </LinearLayout>
+
+        <!-- Main Weather Panel -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="28dp"
+            android:background="@drawable/weather_gradient"
+            android:elevation="3dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CURRENT WEATHER"
+                android:textColor="#DCEBFF"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.12"
+                android:layout_marginBottom="12dp"/>
+
+            <ImageView
+                android:id="@+id/ivWeatherIcon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/weather_clouds"
+                android:contentDescription="Current weather condition"
+                android:scaleType="centerInside"/>
+
+            <TextView
+                android:id="@+id/tvTemperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--°C"
+                android:textColor="#FFFFFF"
+                android:textSize="58sp"
+                android:textStyle="bold"
+                android:includeFontPadding="false"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/tvFeelsLike"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Feels like --"
+                android:textColor="#DCEBFF"
+                android:textSize="15sp"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="14dp"/>
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="3dp"
+                android:background="#B9D7FF"
+                android:layout_marginTop="18dp"/>
+
+            <TextView
+                android:id="@+id/tvCoordinates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#DCEBFF"
+                android:textSize="12sp"
+                android:layout_marginTop="16dp"/>
+
+        </LinearLayout>
+        <Button
+            android:id="@+id/btnViewForecast"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:text="View 5-Day Forecast"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/register_button_background"
+            android:textAllCaps="false"
+            android:textStyle="bold" />
+        <!-- ===== Favourites Section ===== -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Favourite Cities"
+                android:textColor="#172B4D"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnAddFavourite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ Save Current"
+                android:textColor="#2864C7"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:padding="8dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/favouritesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <!-- ===== Events Section ===== -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvEvents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:layout_marginTop="8dp" />
+
+        <!-- Section Heading -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_details"
+            android:textColor="#172B4D"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:layout_marginTop="26dp"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- Details Grid -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:rowCount="3"
+            android:useDefaultMargins="false">
+
+            <!-- Humidity -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="138dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:padding="18dp"
+                android:background="@drawable/weather_card">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="HUMIDITY"
+                    android:textColor="#8492A6"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvHumidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--%"
+                    android:textColor="#172B4D"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Humidity level"
+                    android:textColor="#8492A6"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"/>
+
+            </LinearLayout>
+
+            <!-- Pressure -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="138dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:padding="18dp"
+                android:background="@drawable/weather_card">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PRESSURE"
+                    android:textColor="#8492A6"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvPressure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-- hPa"
+                    android:textColor="#172B4D"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Atmospheric"
+                    android:textColor="#8492A6"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"/>
+
+            </LinearLayout>
+
+            <!-- Wind Speed -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="138dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:padding="18dp"
+                android:background="@drawable/weather_card">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WIND SPEED"
+                    android:textColor="#8492A6"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvWind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-- m/s"
+                    android:textColor="#172B4D"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wind velocity"
+                    android:textColor="#8492A6"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"/>
+
+            </LinearLayout>
+
+            <!-- Visibility -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="138dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:padding="18dp"
+                android:background="@drawable/weather_card">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="VISIBILITY"
+                    android:textColor="#8492A6"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvVisibility"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-- km"
+                    android:textColor="#172B4D"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clear view"
+                    android:textColor="#8492A6"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"/>
+
+            </LinearLayout>
+
+            <!-- Cloudiness -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="138dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:padding="18dp"
+                android:background="@drawable/weather_card">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CLOUDINESS"
+                    android:textColor="#8492A6"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvCloudiness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--%"
+                    android:textColor="#172B4D"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cloud cover"
+                    android:textColor="#8492A6"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"/>
+
+            </LinearLayout>
+
+            <!-- Wind Direction -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="138dp"
+                android:layout_columnWeight="1"
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:padding="18dp"
+                android:background="@drawable/weather_card">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WIND DIRECTION"
+                    android:textColor="#8492A6"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvWindDirection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--°"
+                    android:textColor="#172B4D"
+                    android:textSize="25sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:id="@+id/tvWindCompass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Compass"
+                    android:textColor="#8492A6"
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"/>
+
+            </LinearLayout>
+
+        </GridLayout>
+
+        <!-- Temperature Range -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/temperature_range"
+            android:textColor="#172B4D"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="20dp"
+            android:background="@drawable/weather_card">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MIN TEMPERATURE"
+                    android:textColor="#8492A6"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvMinTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="#172B4D"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="7dp"/>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="48dp"
+                android:background="#E4EAF2"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MAX TEMPERATURE"
+                    android:textColor="#8492A6"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvMaxTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="#172B4D"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="7dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Sun Information -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sun_information"
+            android:textColor="#172B4D"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="20dp"
+            android:background="@drawable/weather_card">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SUNRISE"
+                    android:textColor="#8492A6"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvSunrise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--:--"
+                    android:textColor="#172B4D"
+                    android:textSize="21sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SUNRISE"
+                    android:textColor="#8492A6"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvSunset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--:--"
+                    android:textColor="#172B4D"
+                    android:textSize="21sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Footer -->
+        <TextView
+            android:id="@+id/tvLastUpdated"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#8492A6"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"/>
+
+    </LinearLayout>
+
+</ScrollView>

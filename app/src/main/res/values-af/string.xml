@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WeerApp</string>
+
+    <string name="login_title">WeerApp</string>
+    <string name="login_subtitle">Meld aan om die weer te sien</string>
+    <string name="label_email">EPOSADRES</string>
+    <string name="hint_email">jy@voorbeeld.com</string>
+    <string name="label_password">WAGWOORD</string>
+    <string name="hint_password">Ten minste 6 karakters</string>
+    <string name="btn_create_account">Skep Rekening</string>
+    <string name="btn_login">Meld Aan</string>
+    <string name="switch_to_login">Het jy reeds \'n rekening? Meld aan</string>
+    <string name="switch_to_register">Het jy nie \'n rekening nie? Skep een</string>
+
+    <string name="weather_details">Weerbesonderhede</string>
+    <string name="temperature_range">Temperatuurreeks</string>
+    <string name="sun_information">Soninligting</string>
+    <string name="events_near_you">Gebeure Naby Jou</string>
+    <string name="feels_like">Voel soos %1$s</string>
+
+    <string name="settings">Instellings</string>
+    <string name="temperature_unit">TEMPERATUUR-EENHEID</string>
+    <string name="celsius">°C  Celsius</string>
+    <string name="fahrenheit">°F  Fahrenheit</string>
+    <string name="language">TAAL</string>
+    <string name="notifications">KENNISGEWINGS</string>
+    <string name="notifications_sub">Ontvang weerwaarskuwings</string>
+    <string name="favorite_city">GUNSTELINGSTAD</string>
+    <string name="hint_favorite_city">bv. Johannesburg</string>
+    <string name="btn_save_settings">Stoor Instellings</string>
+    <string name="btn_logout">Meld Af</string>
+    <string name="toast_settings_saved">Instellings gestoor</string>
+</resources>

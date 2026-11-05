@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="16dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/weather_card"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvCityName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Johannesburg"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#172B4D" />
+
+        <TextView
+            android:id="@+id/tvCountryState"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZA, Gauteng"
+            android:textSize="13sp"
+            android:textColor="#64748B"
+            android:layout_marginTop="2dp" />
+    </LinearLayout>
+
+    <!-- Star Icon for Favourites -->
+    <TextView
+        android:id="@+id/btnStar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:gravity="center"
+        android:text="☆"
+        android:textSize="28sp"
+        android:textColor="#F39C12"
+        android:background="?android:attr/selectableItemBackgroundBorderless" />
+</LinearLayout>

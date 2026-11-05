@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Isimo Sezulu</string>
+
+    <string name="login_title">Isimo Sezulu</string>
+    <string name="login_subtitle">Ngena ukubona isimo sezulu</string>
+    <string name="label_email">IKHELI LE-IMEYILI</string>
+    <string name="hint_email">wena@isibonelo.com</string>
+    <string name="label_password">IPHASIWEDI</string>
+    <string name="hint_password">Okungenani izinhlamvu ezi-6</string>
+    <string name="btn_create_account">Dala I-akhawunti</string>
+    <string name="btn_login">Ngena</string>
+    <string name="switch_to_login">Usunayo i-akhawunti? Ngena</string>
+    <string name="switch_to_register">Awunayo i-akhawunti? Dala eyodwa</string>
+
+    <string name="weather_details">Imininingwane Yesimo Sezulu</string>
+    <string name="temperature_range">Izinga Lokushisa</string>
+    <string name="sun_information">Ulwazi Lwelanga</string>
+    <string name="events_near_you">Izenzakalo Eduze Kwakho</string>
+    <string name="feels_like">Kuzwakala njengo-%1$s</string>
+
+    <string name="settings">Izilungiselelo</string>
+    <string name="temperature_unit">IPHUNITHI YOKUSHISA</string>
+    <string name="celsius">°C  Celsius</string>
+    <string name="fahrenheit">°F  Fahrenheit</string>
+    <string name="language">ULIMI</string>
+    <string name="notifications">IZAZISO</string>
+    <string name="notifications_sub">Thola izaziso zesimo sezulu</string>
+    <string name="favorite_city">IDOLOBHA OLITHANDayo</string>
+    <string name="hint_favorite_city">isb. i-Johannesburg</string>
+    <string name="btn_save_settings">Londoloza Izilungiselelo</string>
+    <string name="btn_logout">Phuma</string>
+    <string name="toast_settings_saved">Izilungiselelo zilondoloziwe</string>
+</resources>

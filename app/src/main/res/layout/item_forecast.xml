@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="20dp"
+    android:layout_marginBottom="12dp"
+    android:background="@drawable/weather_card"
+    android:elevation="1dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mon"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#172B4D" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2024-05-20"
+            android:textSize="13sp"
+            android:textColor="#64748B"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Clouds"
+        android:textSize="14sp"
+        android:textColor="#172B4D"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/tvTemps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15° / 25°"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#2864C7" />
+</LinearLayout>
